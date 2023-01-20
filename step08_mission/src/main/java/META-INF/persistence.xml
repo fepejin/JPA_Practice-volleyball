@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+	<persistence-unit name="dbinfo">
+		<class>model.domain.entity.Player</class>
+		<class>model.domain.entity.VTeam</class>
+		<properties>
+			<!-- oracle 설정 정보 -->
+		<!-- 	<property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@127.0.0.1:1521:xe" />
+			<property name="javax.persistence.jdbc.user" value="C##scott" />
+			<property name="javax.persistence.jdbc.password" value="tiger" /> 
+			<property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect" />
+			-->
+			
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/hta?characterEncoding=UTF-8" />
+			<property name="javax.persistence.jdbc.user" value="root" />
+			<property name="javax.persistence.jdbc.password" value="tiger" />
+			<!-- 표준 자바 코드로 작업시 mysql db에 최적인 sql문장을 생성해주는 핵심 API -->
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect " />
+			
+			<!-- DB종류와 상관없이 공통된 정보 -->			
+			<property name="hibernate.show_sql" value="true" /> 
+		 	<!-- <property name="hibernate.format_sql" value="true" /> -->  
+			<property name="hibernate.hbm2ddl.auto" value="none" />
+		</properties>	
+	</persistence-unit>
+</persistence>
