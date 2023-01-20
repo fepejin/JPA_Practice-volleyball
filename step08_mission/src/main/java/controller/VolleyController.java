@@ -27,21 +27,20 @@ public class VolleyController extends HttpServlet {
 		
 		String command = request.getParameter("command");
 		try {
-			if(command.equals("players")) {//모든 직원 정보 검색 처리
+			if(command.equals("players")) {	//모든 직원 정보 검색 처리
 				allPlayer(request, response);
-			}else if(command.equals("teams")) {//모든 부서 정보 검색 처리
+			}else if(command.equals("teams")) {	//모든 부서 정보 검색 처리
 				allVTeam(request, response);
 			}else if(command.equals("playerOne")) { //직원 한명의 정보 검색 처리 
 				onePlayer(request, response);
-			}else if(command.equals("playerLike")) { //부분검색
+			}else if(command.equals("playerLike")) { //이름으로 부분검색
 				oneLikePlayer(request, response);
-			}else if(command.equals("teamPlayer")) { //팀 소속 선수들
+			}else if(command.equals("teamPlayer")) { //팀 소속 선수들 조회
 				oneTeamPlayers(request, response);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-
 	}
 	
 	//모든 직원 정보 검색 
@@ -51,6 +50,7 @@ public class VolleyController extends HttpServlet {
 			List<Player> plist = VolleyDAO.getPlayerAll();
 			JSONObject player = null;
 			JSONArray players = new JSONArray();
+			
 			for(int i = 0; i < plist.size(); i++) {
 				player = new JSONObject();
 				player.put("선수명", plist.get(i).getName()); 
@@ -59,7 +59,6 @@ public class VolleyController extends HttpServlet {
 				player.put("포지션", plist.get(i).getPosition()); 
 				player.put("등록일", plist.get(i).getRegdate()); 
 				player.put("소속팀", plist.get(i).getTeam().getTname()); 
-//				System.out.println(player);
 				players.put(player);
 			}
 			request.setAttribute("data", players);
@@ -78,13 +77,13 @@ public class VolleyController extends HttpServlet {
 			List<VTeam> tlist = VolleyDAO.getTeamAll();
 			JSONObject team = null;
 			JSONArray teams = new JSONArray();
+			
 			for(int i = 0; i < tlist.size(); i++) {
 				team = new JSONObject();
 				team.put("팀번호", tlist.get(i).getId()); 
 				team.put("팀명", tlist.get(i).getTname()); 
 				team.put("지역", tlist.get(i).getLoc()); 
 				
-//				System.out.println(player);
 				teams.put(team);
 			}
 			request.setAttribute("data", teams);
@@ -111,7 +110,7 @@ public class VolleyController extends HttpServlet {
 			player.put("등록일", one.getRegdate()); 
 			player.put("소속팀", one.getTeam().getTname()); 
 			System.out.println(player);
-			//한명 검색..... JSONArray안쓰니까 대괄호
+			//JSONArray안쓰니까 대괄호붙여서 JSONArray처럼 보이게 만듦
 			request.setAttribute("data", "["+player+"]");
 			jsp = "step08_res.jsp";
 		}catch(JSONException s) {
@@ -130,7 +129,7 @@ public class VolleyController extends HttpServlet {
 		try {
 			String likeName = request.getParameter("name");
 			List<Player> plist = VolleyDAO.getLikeEmp(likeName);
-//			배열이 비어있으면 예외던지기
+			//배열이 비어있으면 String으로 예외던지기
 			if(plist.isEmpty()) { 
 				throw new NullPointerException();
 			}
@@ -144,7 +143,7 @@ public class VolleyController extends HttpServlet {
 				player.put("포지션", plist.get(i).getPosition()); 
 				player.put("등록일", plist.get(i).getRegdate()); 
 				player.put("소속팀", plist.get(i).getTeam().getTname()); 
-//				System.out.println(player);
+
 				players.put(player);
 			}
 			request.setAttribute("data", players);
@@ -152,7 +151,7 @@ public class VolleyController extends HttpServlet {
 		}catch(JSONException s) {
 			request.setAttribute("errorMsg", "내부적인 오류로 검색하지 못했습니다.");
 			s.printStackTrace();
-		}catch(NullPointerException ne) { //JSONArray때문에 object로 넘어감
+		}catch(NullPointerException ne) { 
 			ne.printStackTrace();
 			request.setAttribute("errorMsg", "검색된 회원이 없습니다.");
 		}
@@ -165,7 +164,7 @@ public class VolleyController extends HttpServlet {
 		try {
 			String team = request.getParameter("name");
 			List<Player> plist = VolleyDAO.getTeamPlayers(team);
-//			배열이 비어있으면 예외던지기
+			//배열이 비어있으면 예외던지기
 			if(plist.isEmpty()) { 
 				throw new NullPointerException();
 			}
@@ -179,7 +178,7 @@ public class VolleyController extends HttpServlet {
 				player.put("포지션", plist.get(i).getPosition()); 
 				player.put("등록일", plist.get(i).getRegdate()); 
 				player.put("소속팀", plist.get(i).getTeam().getTname()); 
-//				System.out.println(player);
+
 				players.put(player);
 			}
 			request.setAttribute("data", players);
@@ -187,7 +186,7 @@ public class VolleyController extends HttpServlet {
 		}catch(JSONException s) {
 			request.setAttribute("errorMsg", "내부적인 오류로 검색하지 못했습니다.");
 			s.printStackTrace();
-		}catch(NullPointerException ne) { //JSONArray때문에 object로 넘어감
+		}catch(NullPointerException ne) { 
 			ne.printStackTrace();
 			request.setAttribute("errorMsg", "검색된 회원이 없습니다.");
 		}

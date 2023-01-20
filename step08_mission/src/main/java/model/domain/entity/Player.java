@@ -25,7 +25,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-//@ToString
 
 @NamedQuery(name = "Player.findByPlayer", query = "select p from Player p where p.name = :name")
 @NamedQuery(name = "Player.findByTeamPlayers", query = "select p from Player p where p.team.tname = :name")
@@ -51,21 +50,15 @@ public class Player {
 	@Column(nullable = false, length = 30)
 	private String position;
 	
-//	@Temporal(TemporalType.DATE)
-	@CreationTimestamp	//insert쿼리가 동작할 당시 생성. 수정시에는 @updateTimestamp
+	//@Temporal(TemporalType.DATE)
+	//@CreationTimestamp : oracle의 sysdate 
+	//insert쿼리가 동작할 당시 생성. 수정시에는 @UpdateTimestamp
+	@CreationTimestamp	
 	private Date regdate;
-	
-//	@Column(name = "team_id")
-//	private Long teamId;
-	
 	
 	@ManyToOne
 	@JoinColumn(name = "team_id")
 	private VTeam team;
 	
-//	@Override
-//	public String toString() {
-//		return "[ 선수명: "+ name + ", 포지션: " + position + "]";
-//	}
 
 }
